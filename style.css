@@ -1,0 +1,13 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: inherit;
+    cursor: default;
+    -webkit-user-drag: none !important;
+    user-drag: none !important;
+    -webkit-touch-callout: none !important;
+}
