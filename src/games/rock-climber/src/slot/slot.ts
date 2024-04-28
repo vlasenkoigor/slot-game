@@ -1,6 +1,8 @@
 import {Reel} from "./reel";
 import {WidthHeight} from "../../../../core/services/resize.service";
-import {delay} from "../../../../core/util/time";
+import {wait} from "../../../../core/util/time";
+import {WinLine} from "./win-line";
+import {Cell} from "./cell";
 
 export type SlotConfig = {
     size: WidthHeight
@@ -33,15 +35,30 @@ export class Slot extends PIXI.Container {
         }
     }
 
+
     async spin() {
-        delay(2000).then(() => {
+        wait(2000).then(() => {
             this.stop();
         });
 
         await Promise.all(this.reels.map(reel => reel.spin()))
     }
 
+
     stop() {
         this.reels.forEach(reel => reel.stop());
+    }
+
+    async playCellsWin(patterns: number[][]){
+        const cells:Cell[] = [];
+
+        patterns.forEach((pattern, index) => {
+            pattern.forEach((id, i) => {
+                const cell = this.reels[i].cells[id+1];
+                cells.push(cell);
+            })
+        })
+
+        await Promise.all([...new Set(cells)].map(cell => cell.playWin()));
     }
 }
